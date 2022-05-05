@@ -1,9 +1,9 @@
 # php-final-project
-
-# first commit try
-
-# second push/commit try from Nıhat
-
-# 3th
-
-
+Mustafa Asım Altnışık
+- Login & Register
+Nihat Özdemir
+- Market's Homepage & CRUD
+Kaan Bircan
+- Profile Operations (Profile IMG, Yüklü bilgileri sayfaya getirmek, değiştirmek)
+Suphi Erkin Karaçay
+- Customer's Homepage & Shopping Cart
