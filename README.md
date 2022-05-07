@@ -1,9 +1,9 @@
 # php-final-project
-Mustafa Asım Altnışık
-o Login & Register
-Nihat Özdemir
-o Market's Homepage & CRUD
-Kaan Bircan
-o Profile Operations (Profile IMG, Yüklü bilgileri sayfaya getirmek, değiştirmek)
-Suphi Erkin Karaçay
-o Customer's Homepage & Shopping Cart
+###### Mustafa Asım Altnışık
+- Login & Register
+###### Nihat Özdemir
+- Market's Homepage & CRUD
+###### Kaan Bircan
+- Profile Operations (Profile IMG, Yüklü bilgileri sayfaya getirmek, değiştirmek)
+###### Suphi Erkin Karaçay
+- Customer's Homepage & Shopping Cart
