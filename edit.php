@@ -1,26 +1,24 @@
 <?php
     require_once "db.php" ;
 
-    if ( !empty($_POST)) {
+    $id = $_GET["id"] ;
+    if (!empty($_POST)) {
         extract($_POST) ;
         try {
-          $stmt = $db->prepare("UPDATE products SET title= :title , normalPrice = :normalPrice, stock= :stock, expirationDate = :expirationDate  WHERE id = :id") ;
-          $stmt->execute(["title" => $title, "normalPrice" => $normalPrice, "stock" => $stock, "expirationDate" => $expirationDate ]) ;
-          header("Location: market.php?edit=$id") ;
-          exit ;
+            $stmt = $db->prepare("UPDATE products SET title=?, normalPrice=?, stock=?, expirationDate=? WHERE id=?") ;
+            $stmt->execute([$title, $normalPrice, $stock, $expirationDate, $id]);
+            header("Location: market.php");
         } catch(PDOException $ex) {
-            gotoErrorPage() ;
+            echo "<p>DB Error: " . $ex->getMessage() . "</p>";
         }
     }
  
- 
-    $id = $_GET["id"] ;
     try {
-      $stmt = $db->prepare("SELECT * FROM products WHERE id = ?") ;
-      $stmt->execute([$id]) ;
-      $product = $stmt->fetch(PDO::FETCH_ASSOC) ;
+        $stmt = $db->prepare("SELECT * FROM products WHERE id = ?") ;
+        $stmt->execute([$id]) ;
+        $product = $stmt->fetch(PDO::FETCH_ASSOC) ;
     } catch( PDOException $ex) {
-         gotoErrorPage() ;
+        echo "<p>DB Error: " . $ex->getMessage() . "</p>";
     }
 
 ?>
