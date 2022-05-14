@@ -3,8 +3,7 @@
 
     // Read all
     try {
-        $rs = $db->query("SELECT * FROM Products") ;
-        $products = $rs->fetchAll(PDO::FETCH_ASSOC) ;
+        $products = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     } catch( PDOException $ex) {
          gotoErrorPage();
     }
@@ -14,7 +13,7 @@
         $id = $_GET["delete"] ;
         $product = getProduct($id) ;
         try {
-           $stmt = $db->prepare("DELETE FROM Products WHERE id = ?") ;
+           $stmt = $db->prepare("DELETE FROM products WHERE id = ?") ;
            $stmt->execute([$id]) ;
         } catch(PDOException $ex) {
              gotoErrorPage();
@@ -105,7 +104,7 @@
                     <a href="?delete=<?= $product["id"] ?>"> <button type="button" class="btn-danger rounded-circle">Delete</button></a>
                 </td>
             </tr>
-            <?php endforeach ?> 
+            <?php endforeach; ?> 
         </table>
     </div>
 </body>

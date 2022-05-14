@@ -1,26 +1,23 @@
 <?php
     require_once "db.php" ;
 
-    $id = $_GET["id"] ;
     if (!empty($_POST)) {
         extract($_POST) ;
+        $stmt = $db->prepare("UPDATE products SET title=?, normalPrice=?, stock=?, expirationDate=? WHERE id=?") ;
+        $stmt->execute([$title, $normalPrice, $stock, $expirationDate, $id]);
+            
         try {
-            $stmt = $db->prepare("UPDATE products SET title=?, normalPrice=?, stock=?, expirationDate=? WHERE id=?") ;
-            $stmt->execute([$title, $normalPrice, $stock, $expirationDate, $id]);
-            header("Location: market.php");
-        } catch(PDOException $ex) {
+            $stmt = $db->prepare("SELECT * FROM products WHERE id=?") ;
+            $stmt->execute([$id]) ;
+            $product = $stmt->fetch(PDO::FETCH_ASSOC) ;
+        } catch( PDOException $ex) {
             echo "<p>DB Error: " . $ex->getMessage() . "</p>";
-        }
-    }
- 
-    try {
-        $stmt = $db->prepare("SELECT * FROM products WHERE id = ?") ;
-        $stmt->execute([$id]) ;
-        $product = $stmt->fetch(PDO::FETCH_ASSOC) ;
-    } catch( PDOException $ex) {
-        echo "<p>DB Error: " . $ex->getMessage() . "</p>";
+        }   
+        header("Location: market.php?edit=$id");
     }
 
+    $id = $_GET["id"];
+    $product = getProduct($id);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +32,11 @@
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-    <form method="post" action="edit.php" enctype="multipart/form-data" class="rounded row gx-3 gy-2 mt-5 mx-auto col-6 p-3 border border-dark shadow">
+    <form method="post" action="edit.php" class="rounded row gx-3 gy-2 mt-5 mx-auto col-6 p-3 border border-dark shadow">
+        <div class="row form-group col-6 mx-auto">
+            <label for="id">ID</label>
+            <input type="text" class="form-control text-center" name="id" id="id" value="<?= $product["id"] ?>">
+        </div>
         <div class="form-group col-7">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" value="<?= $product["title"] ?>">
