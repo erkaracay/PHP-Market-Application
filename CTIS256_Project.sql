@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Cart`
+-- Table structure for table `cart`
 --
 
-CREATE TABLE `Cart` (
+CREATE TABLE `cart` (
   `id` int(3) NOT NULL,
   `title` varchar(100) NOT NULL,
   `count` int(3) NOT NULL,
@@ -39,10 +39,10 @@ CREATE TABLE `Cart` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Products`
+-- Table structure for table `products`
 --
 
-CREATE TABLE `Products` (
+CREATE TABLE `products` (
   `id` int(4) NOT NULL,
   `title` varchar(100) NOT NULL,
   `stock` int(7) NOT NULL,
@@ -52,10 +52,10 @@ CREATE TABLE `Products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `Products`
+-- Dumping data for table `products`
 --
 
-INSERT INTO `Products` (`id`, `title`, `stock`, `normalPrice`, `expirationDate`, `expirationImage`) VALUES
+INSERT INTO `products` (`id`, `title`, `stock`, `normalPrice`, `expirationDate`, `expirationImage`) VALUES
 (1, 'Cucumbers', 5192, '0.43', '2022-05-30', 'cucumber.png'),
 (2, 'Dimes Ananas Suyu', 40, '4.35', '2022-05-25', 'ananas.png'),
 (3, 'GOLD STANDARD SHAKER', 19, '49.00', '2032-05-31', 'shaker.png'),
@@ -74,10 +74,10 @@ INSERT INTO `Products` (`id`, `title`, `stock`, `normalPrice`, `expirationDate`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `Users` (
+CREATE TABLE `users` (
   `id` int(3) NOT NULL,
   `name` varchar(75) NOT NULL,
   `address` varchar(150) NOT NULL,
@@ -89,10 +89,10 @@ CREATE TABLE `Users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `Users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `Users` (`id`, `name`, `address`, `district`, `city`, `userType`, `email`, `hashPassword`) VALUES
+INSERT INTO `users` (`id`, `name`, `address`, `district`, `city`, `userType`, `email`, `hashPassword`) VALUES
 (5, 'Altınkaya', 'Hasemek, 1469. Sokak, İvedik OSB', 'Yenimahalle', 'Ankara', 'marketStaff', 'mustafa@altinisik.net', '$2y$10$WCxolUBAS1MfRR41ITWN5uRx6F2y4yoN.ceM0UDmNRjvBPu4jKse2'),
 (6, 'Suphi Erkin Karaçay', 'Aşağı Öveçler Mahallesi, Lizbon Caddesi, 1292. Sokak, 5/15', 'Çankaya', 'Ankara', 'customer', 'serkinkaracay@gmail.com', '$2y$10$WgWlIWgwOFrEFlvWsgoaGuPM.CuTmnBmDfq9TQvRIJTuJJIli0swW');
 
@@ -101,21 +101,21 @@ INSERT INTO `Users` (`id`, `name`, `address`, `district`, `city`, `userType`, `e
 --
 
 --
--- Indexes for table `Cart`
+-- Indexes for table `cart`
 --
-ALTER TABLE `Cart`
+ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Products`
+-- Indexes for table `products`
 --
-ALTER TABLE `Products`
+ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Users`
+-- Indexes for table `users`
 --
-ALTER TABLE `Users`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -123,15 +123,15 @@ ALTER TABLE `Users`
 --
 
 --
--- AUTO_INCREMENT for table `Products`
+-- AUTO_INCREMENT for table `products`
 --
-ALTER TABLE `Products`
+ALTER TABLE `products`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT for table `Users`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `Users`
+ALTER TABLE `users`
   MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
