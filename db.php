@@ -2,7 +2,7 @@
     session_start();
     $dsn = 'mysql:host=localhost;dbname=CTIS256_PROJECT;charset=utf8mb4' ;
     $user = 'root' ;
-    $pass = 'root' ;
+    $pass = '' ;
     try {
         $db = new PDO($dsn, $user, $pass) ;
     } catch (Exception $ex) {
@@ -39,3 +39,20 @@
 
         return $dayDiff <= 50;
     }
+
+    function getProduct($id) {
+        global $db ;
+        try {
+           $stmt = $db->prepare("SELECT title FROM products WHERE id = ?") ;
+           $stmt->execute([$id]) ;
+           return $stmt->fetch(PDO::FETCH_ASSOC) ;
+        } catch( PDOException $ex) {
+          gotoErrorPage() ;
+        }
+    }
+      
+    function gotoErrorPage() {
+        header("Location: error.php") ;
+        exit ;
+    }
+
