@@ -75,6 +75,18 @@
             echo "Sorry, there was an error uploading your file.";
         }
         }
+
+        //Add a product
+        if ( !empty($_POST)) {
+            extract($_POST) ;
+            try {
+             $stmt = $db->prepare("INSERT INTO products (title, stock, normalPrice, expirationDate) VALUES (?,?,?,?)" ) ;
+             $stmt->execute([$title, $stock, $normalPrice, $expirationDate]) ;
+             $msg = "$title (" . $db->lastInsertId() . ") added" ; 
+            } catch(PDOException $ex) {
+              gotoErrorPage();
+            }
+        }
     ?>
 </body>
 </html>

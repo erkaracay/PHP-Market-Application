@@ -1,15 +1,33 @@
 <?php
 
+    require_once "db.php" ;
 
+    // Read all
+    try {
+        $rs = $db->query("select * from products") ;
+        $products = $rs->fetchAll(PDO::FETCH_ASSOC) ;
+    } catch( PDOException $ex) {
+         gotoErrorPage();
+    }
 
+    // Delete operation
+    if ( isset($_GET["delete"])) {
+        $id = $_GET["delete"] ;
+        $product = getProduct($id) ;
+        try {
+           $stmt = $db->prepare("DELETE FROM products where id = ?") ;
+           $stmt->execute([$id]) ;
+           $msg = "{$product["title"]} deleted" ;
+        } catch(PDOException $ex) {
+             gotoErrorPage();
+        } 
+    }
 
-
-
-
-
-
-
-
+    // Edit message
+    // if ( isset($_GET["edit"])) {
+    //     $game = getProduct($_GET["edit"]) ;
+    //     $msg = "{$product["title"]} updated." ;
+    // }
 
 
 ?>
@@ -39,7 +57,7 @@
     </div>
     <div class="container-fluid mx-auto row">
         <h2 class="m-0 p-0">Product List</h2>
-        <button type="button" class="btn col-1 btn-info mb-2">ADD</button>
+        <a href="add-product.php"><button type="button" class="btn col-1 btn-info mb-2">ADD</button></a>
         <table class="table table-dark table-borderless">
             <tr>
                 <th scope="col">#</th>
@@ -50,54 +68,20 @@
                 <th scope="col">Expiration Date</th>
                 <th scope="col">Actions</th>
             </tr>
+            <?php foreach($products as $product) : ?>
             <tr>
-                <th scope="row">1</th>
-                <td>Toblerone 100g</td>
-                <td>25</td>
-                <td>20 ₺</td>
-                <td>15₺</td>
-                <td>22-05-2022</td>
+                <th><?= $product["id"] ?></th>
+                <td><?= $product["title"] ?></td>
+                <td><?= $product["stock"] ?></td>
+                <td><?= $product["normalPrice"] ?></td>
+                <td><?= getDiscountedPrice($product["id"]) ?></td>
+                <td><?= $product["expirationDate"] ?></td>
                 <td>
-                    <button type="button" class="btn-warning rounded-circle mx-1">Edit</button>
-                    <button type="button" class="btn-danger rounded-circle">Delete</button>
+                    <a href="edit.php?id=<?= $product["id"] ?>"> <button type="button" class="btn-warning rounded-circle mx-1">Edit</button></a>
+                    <a href="?delete=<?= $product["id"] ?>"> <button type="button" class="btn-danger rounded-circle">Delete</button></a>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Toblerone 100g</td>
-                <td>25</td>
-                <td>20 ₺</td>
-                <td>15₺</td>
-                <td>22-05-2022</td>
-                <td>
-                    <button type="button" class="btn-warning rounded-circle mx-1">Edit</button>
-                    <button type="button" class="btn-danger rounded-circle">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Toblerone 100g</td>
-                <td>25</td>
-                <td>20 ₺</td>
-                <td>15₺</td>
-                <td>22-05-2022</td>
-                <td>
-                    <button type="button" class="btn-warning rounded-circle mx-1">Edit</button>
-                    <button type="button" class="btn-danger rounded-circle">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>Toblerone 100g</td>
-                <td>25</td>
-                <td>20 ₺</td>
-                <td>15₺</td>
-                <td>22-05-2022</td>
-                <td>
-                    <button type="button" class="btn-warning rounded-circle mx-1">Edit</button>
-                    <button type="button" class="btn-danger rounded-circle">Delete</button>
-                </td>
-            </tr>
+            <?php endforeach ?> 
         </table>
     </div>
 </body>
