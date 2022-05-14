@@ -2,7 +2,7 @@
     session_start();
     $dsn = 'mysql:host=localhost;dbname=CTIS256_PROJECT;charset=utf8mb4' ;
     $user = 'root' ;
-    $pass = '' ;
+    $pass = 'root' ;
     try {
         $db = new PDO($dsn, $user, $pass) ;
     } catch (Exception $ex) {
@@ -24,7 +24,7 @@
         $dayDiff = (new DateTime())->diff(new DateTime($item["expirationDate"]))->days;
 
         if ($dayDiff <= 50) {
-            $discountedPrice = $item["normalPrice"] *0.75;
+            $discountedPrice = $item["normalPrice"] * 0.75;
         } else {
             $discountedPrice = $item["normalPrice"];
         }

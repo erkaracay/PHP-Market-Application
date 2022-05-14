@@ -4,7 +4,7 @@
 
     // Read all
     try {
-        $rs = $db->query("select * from products") ;
+        $rs = $db->query("SELECT * FROM Products") ;
         $products = $rs->fetchAll(PDO::FETCH_ASSOC) ;
     } catch( PDOException $ex) {
          gotoErrorPage();
@@ -15,9 +15,9 @@
         $id = $_GET["delete"] ;
         $product = getProduct($id) ;
         try {
-           $stmt = $db->prepare("DELETE FROM products where id = ?") ;
+           $stmt = $db->prepare("DELETE FROM Products WHERE id = ?") ;
            $stmt->execute([$id]) ;
-           $msg = "{$product["title"]} deleted" ;
+        //    $msg = "{$product["title"]} deleted" ;
         } catch(PDOException $ex) {
              gotoErrorPage();
         } 
@@ -47,7 +47,7 @@
         <div class=" p-4 bg-dark col-1 border-danger text-light text-center">
             LOGO
         </div>
-        <form class="col-2 align-self-center d-flex">
+        <form method="POST" class="col-2 align-self-center d-flex">
             <input type="search" name="search" placeholder="Search for products...">
             <button type="submit" class="mx-1 rounded-pill btn-dark">Search</button>
         </form>
