@@ -1,4 +1,4 @@
-# php-final-project
+# PHP Market Application
 ###### Mustafa Asım Altnışık
 - Login & Register
 ###### Nihat Özdemir
