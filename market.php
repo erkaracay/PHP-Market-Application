@@ -19,11 +19,11 @@
         } catch(PDOException $ex) {
              gotoErrorPage();
         } 
+
+        header("Location: market.php");
     }
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,12 +59,6 @@
                     <div class="fas fa-shopping-cart"></div>
                 </a>
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
-                        <a href="customerHome.php" class="nav-link text-white hover">
-                            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
-                            Products
-                        </a>
-                    </li>
                     <li>
                         <a href="#" class="nav-link text-white hover">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
