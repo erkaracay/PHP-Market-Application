@@ -10,6 +10,7 @@
         } catch(PDOException $ex) {
             echo "<p>DB Error: " . $ex->getMessage() . "</p>";
         }
+        header("Location: market.php");
     }
     ?>
 <!DOCTYPE html>
