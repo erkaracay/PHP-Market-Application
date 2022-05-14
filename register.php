@@ -12,7 +12,7 @@
         $inputCustType = $_POST["inputCustType"];
         $inputTerms = isset($_POST["inputTerms"]) ? true : false;
 
-        $users = $db->query("select * from Users")->fetchAll(PDO::FETCH_ASSOC);
+        $users = $db->query("select * from users")->fetchAll(PDO::FETCH_ASSOC);
 
         $error = [];
         
@@ -33,7 +33,7 @@
 
         if (empty($error)) {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $db->prepare("INSERT INTO Users (email, hashPassword, name, address, district, city, userType) VALUES
+            $stmt = $db->prepare("INSERT INTO users (email, hashPassword, name, address, district, city, userType) VALUES
                                 (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$email, $hashPassword, $name, $inputAddress, $inputDistrict, $inputCity, $inputCustType]);
     

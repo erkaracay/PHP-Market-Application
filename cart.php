@@ -1,18 +1,18 @@
 <?php
     require_once "db.php";
-    $Cart = $db->query("select * from Cart")->fetchAll(PDO::FETCH_ASSOC);
+    $Cart = $db->query("SELECT * FROM cart")->fetchAll(PDO::FETCH_ASSOC);
     $i = 1;
     $total = 0;
 
     //Delete Operation
     if (isset($_GET["del"])) {
         $id = $_GET["del"] ;
-        $pr = $db->query("SELECT * from Cart where id=$id")->fetch();
+        $pr = $db->query("SELECT * from cart where id=$id")->fetch();
         try {
-            $stmt = $db->prepare("UPDATE Cart SET count=count-1 WHERE id=?") ;
+            $stmt = $db->prepare("UPDATE cart SET count=count-1 WHERE id=?") ;
             $stmt->execute([$id]) ;
             if ($pr["count"] <= 1) {
-                $stmt = $db->prepare("DELETE from Cart where id = ?");
+                $stmt = $db->prepare("DELETE from cart where id = ?");
                 $stmt->execute([$id]);
             }
             header("Location: cart.php");
@@ -25,7 +25,7 @@
         $id = $_GET["add"] ;
 
         try {
-            $stmt = $db->prepare("UPDATE Cart SET count=count+1 WHERE id=?") ;
+            $stmt = $db->prepare("UPDATE cart SET count=count+1 WHERE id=?") ;
             $stmt->execute([$id]) ;
             header("Location: cart.php");
 

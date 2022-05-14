@@ -12,15 +12,15 @@
 
     function addToCart($id, $count) {
         global $db;
-        $item = $db->query("SELECT * from Products where id=$id")->fetch();
-        $stmt = $db->prepare("INSERT INTO Cart (id, title, count, normalPrice, expirationDate, expirationImage) VALUES
+        $item = $db->query("SELECT * from products where id=$id")->fetch();
+        $stmt = $db->prepare("INSERT INTO cart (id, title, count, normalPrice, expirationDate, expirationImage) VALUES
         (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$item['id'], $item['title'], $count, $item['normalPrice'], $item['expirationDate'], $item['expirationImage']]);
     }
 
     function getDiscountedPrice($id) {
         global $db;
-        $item = $db->query("SELECT * from Products where id=$id")->fetch();
+        $item = $db->query("SELECT * from products where id=$id")->fetch();
         $dayDiff = (new DateTime())->diff(new DateTime($item["expirationDate"]))->days;
 
         if ($dayDiff <= 50) {
@@ -34,7 +34,7 @@
 
     function isDiscounted($id) {
         global $db;
-        $item = $db->query("SELECT * from Products where id=$id")->fetch();
+        $item = $db->query("SELECT * from products where id=$id")->fetch();
         $dayDiff = (new DateTime())->diff(new DateTime($item["expirationDate"]))->days;
 
         return $dayDiff <= 50;
@@ -42,13 +42,10 @@
 
     function getProduct($id) {
         global $db ;
-        try {
-           $stmt = $db->prepare("SELECT title FROM products WHERE id = ?") ;
-           $stmt->execute([$id]) ;
-           return $stmt->fetch(PDO::FETCH_ASSOC) ;
-        } catch( PDOException $ex) {
-          gotoErrorPage() ;
-        }
+
+        $stmt = $db->prepare("SELECT * FROM products WHERE id = ?") ;
+        $stmt->execute([$id]) ;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
       
     function gotoErrorPage() {

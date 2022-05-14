@@ -4,14 +4,14 @@
     if (isset($_POST["submit"])) {
         $email = $_POST["inputEmail"];
         $password = $_POST["inputPassword"];
-        $user = $db->query("select * from Users where email = '$email'")->fetch(PDO::FETCH_ASSOC);
+        $user = $db->query("select * from users where email = '$email'")->fetch(PDO::FETCH_ASSOC);
         $hashPassword = $user["hashPassword"];
         $verify = password_verify($password, $hashPassword);
         if ($verify) {
             if ($user["userType"] == "customer") {
                 header("Location: customerHome.php");
             } else {
-                header("Location: customerHome.php");
+                header("Location: market.php");
             }
         } else {
             echo "Wrong email or password";

@@ -5,7 +5,7 @@
     if (!empty($_POST)) {
         extract($_POST);
         try {
-            $stmt = $db->prepare("INSERT INTO Products (title, stock, normalPrice, expirationDate) VALUES (?,?,?,?)");
+            $stmt = $db->prepare("INSERT INTO products (title, stock, normalPrice, expirationDate) VALUES (?,?,?,?)");
             $stmt->execute([$inputTitle, $inputStock, $inputPrice, $inputExDate]);
         } catch(PDOException $ex) {
             echo "<p>DB Error: " . $ex->getMessage() . "</p>";
