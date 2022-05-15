@@ -1,21 +1,34 @@
 <?php
+    session_start();
     require_once "db.php";
 
     if (isset($_POST["submit"])) {
         $email = $_POST["inputEmail"];
         $password = $_POST["inputPassword"];
-        $user = $db->query("select * from users where email = '$email'")->fetch(PDO::FETCH_ASSOC);
-        $hashPassword = $user["hashPassword"];
-        $verify = password_verify($password, $hashPassword);
-        if ($verify) {
-            if ($user["userType"] == "customer") {
+        // $user = $db->query("select * from users where email = '$email'")->fetch(PDO::FETCH_ASSOC);
+        // $hashPassword = $user["hashPassword"];
+        // $verify = password_verify($password, $hashPassword);
+        if (checkUser($email, $password)) {
+            $_SESSION["user"] = getUser($email);
+            
+            if ($_SESSION["user"]["userType"] == "customer") {
                 header("Location: customerHome.php");
             } else {
                 header("Location: market.php");
             }
         } else {
-            echo "Wrong email or password";
+            echo "<p>Wrong email or password</p>";
         }
+    }
+
+    if (isset($_SESSION["user"])) {
+        $_SESSION["user"] = getUser($email);
+        if ($_SESSION["user"]["userType"] == "customer") {
+            header("Location: customerHome.php");
+        } else {
+            header("Location: market.php");
+        }
+        exit;
     }
 ?>
 <!DOCTYPE html>

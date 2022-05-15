@@ -2,28 +2,21 @@
     require_once "db.php";
     
     if(isset($_POST["submit"])) {
-        $email = $_POST["inputEmail"];
-        $password = $_POST["inputPassword"];
-        $rePassword = $_POST["inputRePassword"];
-        $name = $_POST["inputName"];
-        $inputAddress = $_POST["inputAddress"];
-        $inputDistrict = $_POST["inputDistrict"];
-        $inputCity = $_POST["inputCity"];
-        $inputCustType = $_POST["inputCustType"];
+        extract($_POST);
         $inputTerms = isset($_POST["inputTerms"]) ? true : false;
 
         $users = $db->query("select * from users")->fetchAll(PDO::FETCH_ASSOC);
 
         $error = [];
         
-        if($inputTerms || !isset($email, $password, $name, $rePassword, $inputAddress, $inputDistrict, $inputCity, $inputCustType) ){
+        if($inputTerms || !isset($inputEmail, $inputPassword, $inputName, $inputRePassword, $inputAddress, $inputDistrict, $inputCity, $inputCustType) ){
             $stmt = $db->prepare("SELECT * FROM users WHERE email=?");
-            $stmt->execute([$email]);  
+            $stmt->execute([$inputEmail]);  
             $check = $stmt->fetch();
             if ($check) { // email exists
                 $error[] = "email";
             } else { // email does not exist
-                if ($password != $rePassword || $password == "") {
+                if ($inputPassword != $inputRePassword || $inputPassword == "") {
                     $error[] = "password";
                 }
             } 
@@ -32,10 +25,10 @@
         }
 
         if (empty($error)) {
-            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashPassword = password_hash($inputPassword, PASSWORD_DEFAULT);
             $stmt = $db->prepare("INSERT INTO users (email, hashPassword, name, address, district, city, userType) VALUES
                                 (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$email, $hashPassword, $name, $inputAddress, $inputDistrict, $inputCity, $inputCustType]);
+            $stmt->execute([$inputEmail, $hashPassword, $inputName, $inputAddress, $inputDistrict, $inputCity, $inputCustType]);
     
             header("Location: login.php");
         } else {
