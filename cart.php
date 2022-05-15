@@ -13,16 +13,14 @@
     if (isset($_GET["del"])) {
         $id = $_GET["del"] ;
         $pr = $db->query("SELECT * from cart where id=$id")->fetch();
-        try {
-            $stmt = $db->prepare("UPDATE cart SET count=count-1 WHERE id=?") ;
-            $stmt->execute([$id]) ;
-            if ($pr["count"] <= 1) {
-                $stmt = $db->prepare("DELETE from cart where id = ?");
-                $stmt->execute([$id]);
-            }
-            header("Location: cart.php");
-        } catch(PDOException $ex) {
-        } 
+
+        $stmt = $db->prepare("UPDATE cart SET count=count-1 WHERE id=?") ;
+        $stmt->execute([$id]) ;
+        if ($pr["count"] <= 1) {
+            $stmt = $db->prepare("DELETE from cart where id = ?");
+            $stmt->execute([$id]);
+        }
+        header("Location: cart.php"); 
     }
     
     //Add Operation 
@@ -36,6 +34,19 @@
 
         } catch(PDOException $ex) {
         } 
+    }
+
+    // Search Operation
+    if (!empty($_POST)) {
+        $searchKey = $_POST["searchKey"];
+        $userLocation = $_SESSION["user"]["city"];
+        if($searchKey == "") {
+            $Cart = $db->query("SELECT * FROM cart")->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $Cart = $db->query("SELECT * FROM cart WHERE title LIKE lower('%$searchKey%')")->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $_SESSION["cartSearchKey"] = $searchKey;
     }
 ?>
 <!DOCTYPE html>
@@ -92,8 +103,8 @@
         </div>
         <div class="container-fluid row px-3 py-2 border-bottom mb-3 d-flex flex-wrap align-items-center justify-content-center mb-2">
             <div class="col-4">
-                <form class="col-8 d-flex">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                <form method="post" class="col-8 d-flex">
+                    <input type="search" class="form-control" name="searchKey" value="<?= isset($_SESSION["cartSearchKey"]) ? $_SESSION["cartSearchKey"] : "" ?>" placeholder="Search..." aria-label="Search">
                     <button type="submit" class="mx-3 btn btn-dark fas fa-search"></button>
                 </form>
             </div>

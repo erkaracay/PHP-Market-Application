@@ -27,6 +27,18 @@
         header("Location: market.php");
     }
 
+    // Search Operation
+    if (!empty($_POST)) {
+        $searchKey = $_POST["searchKey"];
+        $userLocation = $_SESSION["user"]["city"];
+        if($searchKey == "") {
+            $products = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $products = $db->query("SELECT * FROM products WHERE title LIKE lower('%$searchKey%')")->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $_SESSION["marketSearchKey"] = $searchKey;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,8 +84,8 @@
         </div>
         <div class="container-fluid row px-3 py-2 border-bottom mb-3 d-flex flex-wrap align-items-center justify-content-center mb-2">
             <div class="col-4">
-                <form class="col-8 d-flex">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            <form method="post" class="col-8 d-flex">
+                    <input type="search" class="form-control" name="searchKey" value="<?= isset($_SESSION["marketSearchKey"]) ? $_SESSION["marketSearchKey"] : "" ?>" placeholder="Search..." aria-label="Search">
                     <button type="submit" class="mx-3 btn btn-dark fas fa-search"></button>
                 </form>
             </div>
