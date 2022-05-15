@@ -1,9 +1,12 @@
 <?php
     require_once "db.php";
+    $userLocation = "İstanbul";
+    $searchKey = "Mouse";
+
     $products = $db->query("SELECT * FROM products 
-                            WHERE title LIKE '%a%' 
-                            AND productLocation = 'Bilkent'
-                            AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
+                            WHERE title LIKE'" .$searchKey.
+                            "'AND productLocation ='".$userLocation.
+                            "'AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
     $i = 1;
     $len = count($products);
     
