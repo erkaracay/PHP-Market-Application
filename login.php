@@ -44,8 +44,8 @@
     <form method="POST" class="col-3 mx-auto mt-4 p-3 rounded border border-success shadow">
         <div class="mb-3">
             <label for="inputEmail" class="form-label">E-mail Address</label>
-            <input type="email" class="form-control" id="inputEmail" name="inputEmail" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll share your email with everyone. Trust us.</div>
+            <input type="email" class="form-control" id="inputEmail" name="inputEmail" value="<?= isset($inputEmail) ? filter_var($inputEmail, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We will not share your email with anyone. Trust us.</div>
         </div>
         <div class="mb-3">
             <label for="inputPassword" class="form-label">Password</label>
