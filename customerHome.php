@@ -5,7 +5,10 @@
         exit;
     }
     require_once "db.php";
-    $products = $db->query("select * from products")->fetchAll(PDO::FETCH_ASSOC);
+    $products = $db->query("SELECT * FROM products 
+                            WHERE title LIKE '%a%' 
+                            AND productLocation = 'Bilkent'
+                            AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
     $i = 1;
     $len = count($products);
     
