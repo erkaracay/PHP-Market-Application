@@ -4,7 +4,7 @@
         header("Location: login.php");
         exit;
     }
-    
+
     require_once "db.php";
     
     //Add a product
@@ -42,13 +42,17 @@
         </div>
         <div class="form-group col-2">
           <label for="inputStock">Stock</label>
-          <input type="text" class="form-control" id="inputStock" name="inputStock">
+          <input type="text" class="form-control" id="inputStock" placeholder="42" name="inputStock">
         </div>
-        <div class="form-group col-6">
+        <div class="form-group col-4">
+            <label for="inputCity">City</label>
+            <input type="text" class="form-control" placeholder="Ankara" id="inputCity" name="inputCity">
+        </div>
+        <div class="form-group col-3">
             <label for="inputExDate">Expiration Date</label>
             <input type="date" class="form-control" id="inputExDate" name="inputExDate">
         </div>
-        <div class="form-group col-6">
+        <div class="form-group col-5">
             <label for="inputImg">Image of the Product</label>
             <input type="file" id="inputImg" name="inputImg" class="form-control">
         </div>
