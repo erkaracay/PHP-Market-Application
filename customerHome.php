@@ -6,7 +6,10 @@
     }
     require_once "db.php";
 
-    $products = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+    $userLocation = $_SESSION["user"]["city"];
+
+    $products = $db->query("SELECT * FROM products 
+                            WHERE productLocation = lower('$userLocation') AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
     $i = 1;
     $len = count($products);
     
@@ -15,7 +18,7 @@
         $id = $_GET["addToCart"];
         $count = $_GET["count"];
 
-        addToCart($id, $count);
+        addToCart($id);
         header("Location: customerHome.php");
     }
 
@@ -23,9 +26,14 @@
     if (!empty($_POST)) {
         $searchKey = $_POST["searchKey"];
         $userLocation = $_SESSION["user"]["city"];
-        $products = $db->query("SELECT * FROM products 
-                                WHERE title LIKE lower('%$searchKey%') AND productLocation = lower('$userLocation')
-                                AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
+        if($searchKey == "") {
+            $products = $db->query("SELECT * FROM products 
+                                    WHERE productLocation = lower('$userLocation') AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $products = $db->query("SELECT * FROM products 
+                                    WHERE title LIKE lower('%$searchKey%') AND productLocation = lower('$userLocation')
+                                    AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         $_SESSION["searchKey"] = $searchKey;
     }
@@ -83,7 +91,7 @@
         <div class="container-fluid row px-3 py-2 border-bottom mb-3 d-flex flex-wrap align-items-center justify-content-center mb-2">
             <div class="col-4">
                 <form method="post" class="col-8 d-flex">
-                    <input type="search" class="form-control" name="searchKey" value="<?= $_SESSION["searchKey"] ?>" placeholder="Search..." aria-label="Search">
+                    <input type="search" class="form-control" name="searchKey" value="<?= isset($_SESSION["searchKey"]) ? $_SESSION["searchKey"] : "" ?>" placeholder="Search..." aria-label="Search">
                     <button type="submit" class="mx-3 btn btn-dark fas fa-search"></button>
                 </form>
             </div>
