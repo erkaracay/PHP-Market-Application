@@ -1,0 +1,7 @@
+2 Valid Users for testing
+- Market
+email: mustafa@altinisik.net
+pass: altinkaya123
+- Consumer
+email: serkinkaracay@gmail.com
+pass: serkin123

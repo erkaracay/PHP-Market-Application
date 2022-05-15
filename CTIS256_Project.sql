@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: May 14, 2022 at 06:34 PM
+-- Generation Time: May 15, 2022 at 08:27 PM
 -- Server version: 5.7.34
 -- PHP Version: 8.0.8
 
@@ -36,6 +36,14 @@ CREATE TABLE `cart` (
   `expirationImage` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `title`, `count`, `normalPrice`, `expirationDate`, `expirationImage`) VALUES
+(9, 'PETRA Çekirdek Kahve - Acme 250g', 1, '89.90', '2022-05-28', 'petra.png'),
+(12, 'SPADA COFFEE Çekirdek Kahve - Colombia/Huila 250g', 1, '92.00', '2026-10-14', 'spada.png');
+
 -- --------------------------------------------------------
 
 --
@@ -50,8 +58,6 @@ CREATE TABLE `products` (
   `expirationDate` date NOT NULL,
   `expirationImage` varchar(100) DEFAULT NULL,
   `productLocation` varchar(100) DEFAULT NULL
-
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -59,16 +65,15 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `title`, `stock`, `normalPrice`, `expirationDate`, `expirationImage`, `productLocation`) VALUES
-(1, 'Cucumbers', 5192, '0.43', '2022-05-30', 'cucumber.png', 'Ankara'),
-(2, 'Dimes Ananas Suyu', 40, '4.35', '2022-05-08', 'ananas.png', 'İstanbul'),
-(3, 'GOLD STANDARD SHAKER', 19, '49.00', '2032-05-31', 'shaker.png', 'İzmir'),
-(4, 'LG AKB73715686 - TV Remote', 219, '49.99', '2028-05-10', 'remote.png', 'Ankara'),
+(1, 'Cucumbers', 5156, '0.43', '2022-05-30', 'cucumber.png', 'Ankara'),
+(2, 'Dimes Ananas Suyu', 39, '4.35', '2022-05-08', 'ananas.png', 'İstanbul'),
+(3, 'GOLD STANDARD SHAKER', 18, '49.00', '2032-05-31', 'shaker.png', 'İzmir'),
 (5, 'Logitech M238 Wireless Mouse', 99, '99.99', '2031-12-18', 'logi.png', 'İstanbul'),
 (6, 'Milka Oreo 130g', 13, '13.99', '2022-06-15', 'milkaOreo.png', 'İzmir'),
-(7, 'Toblerone 100g', 5123, '12.50', '2022-06-19', 'toblerone.png', 'Ankara'),
+(7, 'Toblerone 100g', 5120, '12.50', '2022-06-19', 'toblerone.png', 'Ankara'),
 (8, 'ETİ Kakaolu Bisküvi 125g', 41, '4.50', '2023-03-16', 'kakaolu.png', 'İstanbul'),
 (9, 'PETRA Çekirdek Kahve - Acme 250g', 7, '89.90', '2022-05-28', 'petra.png', 'İzmir'),
-(10, 'Starbucks Çekirdek Kahve - Atitlan 250g', 4, '35.00', '2023-05-03', 'starbucks.jpeg', 'Ankara'),
+(10, 'Starbucks Çekirdek Kahve - Atitlan 250g', 2, '35.00', '2023-05-03', 'starbucks.jpeg', 'Ankara'),
 (11, 'JACOBS Barista Serisi Tanışma Paketi Filtre Kahve 225g x 3', 19, '99.00', '2022-11-16', 'jacobs.png', 'İstanbul'),
 (12, 'SPADA COFFEE Çekirdek Kahve - Colombia/Huila 250g', 4, '92.00', '2026-10-14', 'spada.png', 'İzmir'),
 (13, 'MSI Vigor GK30 Mekanik Klavye', 3, '219.50', '2032-05-31', 'vigor.png', 'Ankara'),
@@ -97,7 +102,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `address`, `district`, `city`, `userType`, `email`, `hashPassword`) VALUES
 (5, 'Altınkaya', 'Hasemek, 1469. Sokak, İvedik OSB', 'Yenimahalle', 'Ankara', 'marketStaff', 'mustafa@altinisik.net', '$2y$10$WCxolUBAS1MfRR41ITWN5uRx6F2y4yoN.ceM0UDmNRjvBPu4jKse2'),
-(6, 'Suphi Erkin Karaçay', 'Aşağı Öveçler Mahallesi, Lizbon Caddesi, 1292. Sokak, 5/15', 'Çankaya', 'Ankara', 'customer', 'serkinkaracay@gmail.com', '$2y$10$WgWlIWgwOFrEFlvWsgoaGuPM.CuTmnBmDfq9TQvRIJTuJJIli0swW');
+(6, 'Suphi Erkin Karaçay', 'Aşağı Öveçler Mahallesi, Lizbon Caddesi, 1292. Sokak, 5/15', 'Çankaya', 'Ankara', 'customer', 'serkinkaracay@gmail.com', '$2y$10$WgWlIWgwOFrEFlvWsgoaGuPM.CuTmnBmDfq9TQvRIJTuJJIli0swW'),
+(7, 'Tuğba Özhan', 'Eryaman Mh. 271. Sk. OYAK555 Konut Sitesi C1 Blok D:13 ', 'Etimesgut', 'İstanbul', 'customer', 'tugbaozbayrak0@gmail.com', '$2y$10$P0JrWWPxLQNk45kkbuC2S.wlUgkewdUCzZ7PdBguEUmwye8Po58aO'),
+(8, 'Buket Adasayar', 'seğmenler mahallesi cumhuriyet caddesi yıldırım sitesi a blok no:23 ', 'gölbaşı', 'İzmir', 'customer', 'ykskbsbuket@gmail.com', '$2y$10$WOWftu/kg7Hf3yDe0yFqk.1A27cEJKwUrW5tDRelWSlTMrC9rYpam');
 
 --
 -- Indexes for dumped tables
@@ -135,7 +142,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
