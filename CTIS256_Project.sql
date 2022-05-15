@@ -48,7 +48,7 @@ CREATE TABLE `products` (
   `stock` int(7) NOT NULL,
   `normalPrice` decimal(5,2) NOT NULL,
   `expirationDate` date NOT NULL,
-  `expirationImage` varchar(100) DEFAULT NULL
+  `expirationImage` varchar(100) DEFAULT NULL,
   `productLocation` varchar(100) DEFAULT NULL
 
 
