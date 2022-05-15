@@ -34,19 +34,19 @@
     <form method="post" action="add-product.php" enctype="multipart/form-data" class="rounded row gx-3 gy-2 mt-5 mx-auto col-6 p-3 border border-dark shadow">
         <div class="form-group col-7">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="inputTitle" placeholder="Enter title">
+            <input type="text" class="form-control" id="title" value="<?= isset($inputTitle) ? filter_var($inputTitle, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" name="inputTitle" placeholder="Enter title">
         </div>
         <div class="form-group col-3">
             <label for="inputPrice">Normal Price</label>
-            <input type="text" class="form-control" id="inputPrice" name="inputPrice" placeholder="₺">
+            <input type="text" class="form-control" id="inputPrice" value="<?= isset($inputPrice) ? filter_var($inputPrice, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" name="inputPrice" placeholder="₺">
         </div>
         <div class="form-group col-2">
           <label for="inputStock">Stock</label>
-          <input type="text" class="form-control" id="inputStock" placeholder="42" name="inputStock">
+          <input type="text" class="form-control" id="inputStock" value="<?= isset($inputStock) ? filter_var($inputStock, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" placeholder="42" name="inputStock">
         </div>
         <div class="form-group col-4">
             <label for="inputCity">City</label>
-            <input type="text" class="form-control" placeholder="Ankara" id="inputCity" name="inputCity">
+            <input type="text" class="form-control" placeholder="Ankara" value="<?= isset($inputCity) ? filter_var($inputCity, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" id="inputCity" name="inputCity">
         </div>
         <div class="form-group col-3">
             <label for="inputExDate">Expiration Date</label>

@@ -52,12 +52,12 @@
     <form method="POST" class="rounded row gx-3 gy-2 mt-5 mx-auto col-6 p-3 border border-dark shadow">
         <div class="form-group col-md-6">
             <label for="inputEmail">E-mail</label>
-            <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="E-mail">
+            <input type="email" class="form-control" name="inputEmail" value="<?= isset($inputEmail) ? filter_var($inputEmail, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" id="inputEmail" placeholder="E-mail">
         </div>
 
         <div class="form-group col-md-6">
             <label for="inputName">Fullname / Market Name</label>
-            <input type="text" class="form-control" name="inputName" id="inputName" placeholder="Name">
+            <input type="text" class="form-control" name="inputName" value="<?= isset($inputName) ? filter_var($inputName, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" id="inputName" placeholder="Name">
         </div>
 
         <div class="col-md-6">
@@ -72,17 +72,17 @@
 
         <div class="col-12">
           <label for="inputAddress" class="form-label">Address</label>
-          <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="Akdeniz St. No:31">
+          <input type="text" class="form-control" name="inputAddress" value="<?= isset($inputAddress) ? filter_var($inputAddress, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" id="inputAddress" placeholder="Akdeniz St. No:31">
         </div>
 
         <div class="col-md-6">
             <label for="inputCity" class="form-label">District</label>
-            <input type="text" class="form-control" name="inputDistrict" id="inputDistrict" placeholder="Yücetepe">
+            <input type="text" class="form-control" name="inputDistrict" value="<?= isset($inputDistrict) ? filter_var($inputDistrict, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" id="inputDistrict" placeholder="Yücetepe">
           </div>
 
         <div class="col-md-6">
           <label for="inputCity" class="form-label">City</label>
-          <input type="text" class="form-control" name="inputCity" id="inputCity" placeholder="Ankara">
+          <input type="text" class="form-control" name="inputCity" value="<?= isset($inputCity) ? filter_var($inputCity, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : "" ?>" id="inputCity" placeholder="Ankara">
         </div>
 
         <fieldset class="form-group">
