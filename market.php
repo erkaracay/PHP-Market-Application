@@ -30,7 +30,7 @@
     // Search Operation
     if (!empty($_POST)) {
         $searchKey = $_POST["searchKey"];
-        $userLocation = $_SESSION["user"]["city"];
+
         if($searchKey == "") {
             $products = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
         } else {

@@ -9,12 +9,24 @@
         exit;
     }
 
-    function addToCart($id, $count) {
+    function addToCart($id) {
         global $db;
-        $item = $db->query("SELECT * from products where id=$id")->fetch();
-        $stmt = $db->prepare("INSERT INTO cart (id, title, count, normalPrice, expirationDate, expirationImage) VALUES
-        (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$item['id'], $item['title'], $count, $item['normalPrice'], $item['expirationDate'], $item['expirationImage']]);
+
+        // Checks if the same product is already in the cart
+        $stmt = $db->prepare("SELECT * FROM cart WHERE id=?");
+        $stmt->execute([$id]);  
+        $check = $stmt->fetch();
+        
+        if($check) {
+            $stmt = $db->prepare("UPDATE cart SET count=count+1 WHERE id=?");
+            $stmt->execute([$id]);
+        } else {
+            $item = $db->query("SELECT * from products where id=$id")->fetch();
+            $stmt = $db->prepare("INSERT INTO cart (id, title, count, normalPrice, expirationDate, expirationImage) VALUES
+            (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$item['id'], $item['title'], 1, $item['normalPrice'], $item['expirationDate'], $item['expirationImage']]);
+        }
+
     }
 
     function getDiscountedPrice($id) {

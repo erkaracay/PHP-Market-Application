@@ -39,7 +39,7 @@
     // Search Operation
     if (!empty($_POST)) {
         $searchKey = $_POST["searchKey"];
-        $userLocation = $_SESSION["user"]["city"];
+
         if($searchKey == "") {
             $Cart = $db->query("SELECT * FROM cart")->fetchAll(PDO::FETCH_ASSOC);
         } else {
@@ -47,6 +47,24 @@
         }
 
         $_SESSION["cartSearchKey"] = $searchKey;
+    }
+
+    // Buy Operation
+    $buy = isset($_GET["buy"]) ? $_GET["buy"] : null;
+    if ($buy === "1") {
+        $toDelete = $db->query("SELECT * FROM cart")->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($toDelete as $del) {
+            $product = $db->query("SELECT * from products where id=".$del["id"])->fetch();
+            if ($product["stock"] <= $del["count"]) {
+                $stmt = $db->prepare("DELETE FROM products WHERE id=?");
+                $stmt->execute([$del["id"]]);
+            } else {
+                $stmt = $db->prepare("UPDATE products SET stock=stock-".$del["count"]." WHERE id=?");
+                $stmt->execute([$del["id"]]);
+            }
+        }
+        $db->exec("DELETE from cart");
+        header("Location: cart.php");
     }
 ?>
 <!DOCTYPE html>
@@ -152,7 +170,7 @@
         </div>
         <div class="col-2 d-flex flex-column justify-content-center align-items-center">
             <h2 class="my-3"> <?= $total ?> ₺</h2>
-            <button type="button" class="btn p-3 px-5 btn-warning fs-3 fw-bold">BUY</button>
+            <a href="cart.php?buy=1"><button type="button" class="btn p-3 px-5 btn-warning fs-3 fw-bold">BUY</button></a>
         </div>
     </div>
 </body>
