@@ -1,6 +1,12 @@
 <?php
+    session_start();
+    if (!isset($_SESSION["user"])) {
+        header("Location: login.php");
+        exit;
+    }
+    
     require_once "db.php";
-
+    
     //Add a product
     if (!empty($_POST)) {
         extract($_POST);

@@ -1,4 +1,9 @@
 <?php
+    session_start();
+    if (!isset($_SESSION["user"])) {
+        header("Location: login.php");
+        exit;
+    }
     require_once "db.php";
     $Cart = $db->query("SELECT * FROM cart")->fetchAll(PDO::FETCH_ASSOC);
     $i = 1;
@@ -76,7 +81,7 @@
                     </a>
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                         <li>
-                            <a href="#" class="nav-link text-white hover">
+                            <a href="profile.php" class="nav-link text-white hover">
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
                                 Profile
                             </a>
