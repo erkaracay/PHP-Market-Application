@@ -1,5 +1,4 @@
 <?php
-    session_start();
     $dsn = 'mysql:host=localhost;dbname=CTIS256_PROJECT;charset=utf8mb4' ;
     $user = 'root' ;
     $pass = 'root' ;
@@ -40,6 +39,30 @@
         return $dayDiff <= 50;
     }
 
+    function gotoErrorPage() {
+        header("Location: error.php") ;
+        exit ;
+    }
+
+    function checkUser($email, $pass) {
+        global $db ;
+    
+        $stmt = $db->prepare("select * from users where email=?") ;
+        $stmt->execute([$email]) ;
+        if ($stmt->rowCount()) {
+            $user = $stmt->fetch(PDO::FETCH_ASSOC) ;
+            return password_verify($pass, $user["hashPassword"]) ;
+        }
+        return false ;
+    }
+    
+    function getUser($email) {
+        global $db ;
+        $stmt = $db->prepare("select * from users where email=?") ;
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ;
+    }
+
     function getProduct($id) {
         global $db ;
 
@@ -47,9 +70,3 @@
         $stmt->execute([$id]) ;
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-      
-    function gotoErrorPage() {
-        header("Location: error.php") ;
-        exit ;
-    }
-

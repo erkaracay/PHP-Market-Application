@@ -1,5 +1,10 @@
 <?php
-    require_once "db.php" ;
+    session_start();
+    if (!isset($_SESSION["user"])) {
+        header("Location: login.php");
+        exit;
+    }
+    require_once "db.php";
 
     if (!empty($_POST)) {
         extract($_POST) ;

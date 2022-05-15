@@ -1,28 +1,24 @@
 <?php
     session_start();
+    require_once "db.php";
+    
     if (!isset($_SESSION["user"])) {
         header("Location: login.php");
         exit;
     }
-    require_once "db.php";
-    $userLocation = "İstanbul";
-    $searchKey = "Mouse";
-
-    $products = $db->query("SELECT * FROM products 
-                            WHERE title LIKE'" .$searchKey.
-                            "'AND productLocation ='".$userLocation.
-                            "'AND expirationDate > CURDATE() ")->fetchAll(PDO::FETCH_ASSOC);
-    $i = 1;
-    $len = count($products);
     
-    // Add to Cart Operation
-    if (isset($_GET["addToCart"]) && isset($_GET["count"])) {
-        $id = $_GET["addToCart"];
-        $count = $_GET["count"];
-
-        addToCart($id, $count);
-        header("Location: customerHome.php");
+    $user = $_SESSION["user"];
+    if(!empty($_POST)) {
+        extract($_POST);
+        if (checkUser($inputEmail, $inputPassword)) {
+            $stmt = $db->prepare("UPDATE users SET name=?, email=?, address=?, city=?, district=? WHERE id=?");
+            $stmt->execute([$inputName, $inputEmail, $inputAddress, $inputCity, $inputDistrict, $user["id"]]);
+            $user = getUser($inputEmail);
+            $_SESSION["user"] = $user;
+            header("Location: profile.php");
+        }
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +26,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer's Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/49131ae832.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="assets/custHome.css">
     <link rel="stylesheet" href="assets/headers.css">
-    <style>
-        .col-c {
-            flex: 0 0 auto;
-            width: 9.5%;
-        }
-    </style>
 </head>
 <body>
     <!-- SVG Symbol Packet -->
@@ -82,39 +70,61 @@
                 </form>
             </div>
                 <div class="col-4 d-flex justify-content-center align-items-center">
-                <h3 class="m-0">PRODUCTS</h3>
+                <h3 class="m-0">Shopping Cart</h3>
             </div>
-                <div class="col-4 d-flex align-items-center justify-content-end container-fluid">
-                <a href="cart.php"><button type="button" class="btn btn-dark">Shopping Cart</button></a>
+            <div class="col-4 d-flex align-items-center justify-content-end container-fluid">
+                <?php if($user["userType"] == "customer"): ?>
+                    <a href="customerHome.php"><button type="button" class="btn btn-dark mx-2">Go Back</button></a>
+                <?php else: ?>
+                    <a href="market.php"><button type="button" class="btn btn-dark mx-2">Go Back</button></a>
+                <?php endif; ?>
+                <a href="logout.php"><button type="button" class="btn btn-dark mx-2">Log Out</button></a>
             </div>
         </div>
     </header>
-
-    <!-- Products -->
-    <section class="section-products">
-        <div class="container">
-            <div class="row">
-            <?php foreach ($products as $product): ?>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div style="background: url('assets/img/<?= $product["expirationImage"] ?>') no-repeat center; 
-                                background-size:contain; height: 75%" class="single-product">
-                        <div class="part-1">
-                            <ul>
-                                <li><a href="?addToCart=<?= $product["id"] ?>&count=1"><i class="fas fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="part-2">
-                            <h3 class="product-title"><?= $product["title"] ?></h3>
-                            <?php if(isDiscounted($product["id"])): ?>
-                                <h4 class="product-old-price"><?= $product["normalPrice"] ?></h4>
-                            <?php endif; ?>
-                            <h4 class="product-price"><?= getDiscountedPrice($product["id"]) ?> ₺</h4>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-            </div>
+    <form method="POST" class="row gx-3 gy-2 mt-5 mx-auto col-6 p-3">
+        <div class="form-group col-md-6">
+            <label for="inputEmail">E-mail</label>
+            <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="E-mail"
+                value="<?= $user["email"] ?>">
         </div>
-    </section>
+
+        <div class="form-group col-md-6">
+            <label for="inputName">Name</label>
+            <input type="text" class="form-control" name="inputName" id="inputName" placeholder="Name"
+                value="<?= $user["name"] ?>">
+        </div>
+
+        <div class="col-md-6">
+          <label for="inputPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="Type password">
+        </div>
+
+        <div class="col-md-6">
+            <label for="inputRePassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="inputRePassword" id="inputRePassword" placeholder="Re-type Password">
+          </div>
+
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">Address</label>
+          <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="Akdeniz St. No:31"
+            value="<?= $user["address"] ?>">
+        </div>
+
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">District</label>
+            <input type="text" class="form-control" name="inputDistrict" id="inputDistrict" placeholder="Yücetepe"
+                value="<?= $user["district"] ?>">
+          </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="inputCity" class="form-label">City</label>
+          <input type="text" class="form-control" name="inputCity" id="inputCity" placeholder="Ankara"
+            value="<?= $user["city"] ?>">
+        </div>
+        <div class="col-1 mx-auto">
+            <button class="btn btn-warning" type="submit">EDIT</button>
+        </div>
+    </form>
 </body>
 </html>
