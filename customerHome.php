@@ -1,6 +1,6 @@
 <?php
     require_once "db.php";
-    $products = $db->query("select * from products")->fetchAll(PDO::FETCH_ASSOC);
+    $products = $db->query("select * from products where title like '%Ananas%'")->fetchAll(PDO::FETCH_ASSOC);
     $i = 1;
     $len = count($products);
     
