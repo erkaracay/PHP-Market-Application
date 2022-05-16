@@ -7,7 +7,7 @@
 
         $users = $db->query("select * from users")->fetchAll(PDO::FETCH_ASSOC);
 
-        $error = [];
+        $error = [];//Is used to store errors
         
         if($inputTerms || !isset($inputEmail, $inputPassword, $inputName, $inputRePassword, $inputAddress, $inputDistrict, $inputCity, $inputCustType) ){
             $stmt = $db->prepare("SELECT * FROM users WHERE email=?");
@@ -16,7 +16,7 @@
             if ($check) { // email exists
                 $error[] = "email";
             } else { // email does not exist
-                if ($inputPassword != $inputRePassword || $inputPassword == "") {
+                if ($inputPassword != $inputRePassword || $inputPassword == "") {//Error in password
                     $error[] = "password";
                 }
             } 
@@ -24,17 +24,17 @@
                 $error[] = "field";
         }
 
-        if (empty($error)) {
-            $hashPassword = password_hash($inputPassword, PASSWORD_DEFAULT);
-            $stmt = $db->prepare("INSERT INTO users (email, hashPassword, name, address, district, city, userType) VALUES
-                                (?, ?, ?, ?, ?, ?, ?)");
+        if (empty($error)) {//There is no error, insert the user to the database.
+            $hashPassword = password_hash($inputPassword, PASSWORD_DEFAULT);//Hashing the password
+            $stmt = $db->prepare("INSERT INTO users (email, hashPassword, name, address, district, city, userType) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$inputEmail, $hashPassword, $inputName, $inputAddress, $inputDistrict, $inputCity, $inputCustType]);
     
-            header("Location: login.php");
+            header("Location: login.php");//Redirect to login page
         } else {
             $errorString = "?" . implode("&", $error);
             
-            header("Location: register.php". $errorString);
+            header("Location: register.php". $errorString);//Putting errors to the url
         }
     }
 
@@ -114,6 +114,7 @@
         </div>
     </form>
 
+    <!-- Error Messages -->
     <div class="alert alert-danger col-6 mx-auto my-2 d-none" id="fieldError">
         <strong>Error!</strong> Please fill every field and agree to the <a href="terms.html" target="_blank">Terms and Conditions</a>.!
     </div>
@@ -125,16 +126,19 @@
     </div>
 
     <?php
+        //Display e-mail error
         if(isset($_GET["email"])) {
             echo "<script>
             document.getElementById('emailError').classList.remove('d-none');
             </script>";
         } 
+        //Display password error
         if(isset($_GET["password"])) {
             echo "<script>
             document.getElementById('passwordError').classList.remove('d-none');
             </script>";
         }
+        //Display field error
         if(isset($_GET["field"])) {
             echo "<script>
             document.getElementById('fieldError').classList.remove('d-none');

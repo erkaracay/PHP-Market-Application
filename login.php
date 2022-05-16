@@ -2,25 +2,25 @@
     session_start();
     require_once "db.php";
 
+    //Getting variables with POST method
     if (isset($_POST["submit"])) {
         $email = $_POST["inputEmail"];
         $password = $_POST["inputPassword"];
-        // $user = $db->query("select * from users where email = '$email'")->fetch(PDO::FETCH_ASSOC);
-        // $hashPassword = $user["hashPassword"];
-        // $verify = password_verify($password, $hashPassword);
-        if (checkUser($email, $password)) {
-            $_SESSION["user"] = getUser($email);
+
+        if (checkUser($email, $password)) {//This function is in db.php, 
+            $_SESSION["user"] = getUser($email);//Getting user from the database with the email
             
             if ($_SESSION["user"]["userType"] == "customer") {
-                header("Location: customerHome.php");
+                header("Location: customerHome.php");//Customer, redirect to customerHome.php
             } else {
-                header("Location: market.php");
+                header("Location: market.php");//Market user, redirect to market.php
             }
         } else {
-            echo "<p>Wrong email or password</p>";
+            echo "<p>Wrong email or password</p>";//User varification failed
         }
     }
 
+    //If the user already logged in, redirect to the home page
     if (isset($_SESSION["user"])) {
         $_SESSION["user"] = getUser($email);
         if ($_SESSION["user"]["userType"] == "customer") {
