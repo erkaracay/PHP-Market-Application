@@ -3,7 +3,7 @@
 A web based, multi-user market application which includes a market user and a customer user which has access to different pages and features. Made using PHP, JavaScript, HTML, CSS(Bootstrap), SQL.
 
 ###### Mustafa Asım Altnışık
-- Login & Register
+- Login & Register & Search
 ###### Nihat Özdemir
 - Market's Homepage & CRUD
 ###### Kaan Bircan
