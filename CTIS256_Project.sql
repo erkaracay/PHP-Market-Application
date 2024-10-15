@@ -101,8 +101,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `address`, `district`, `city`, `userType`, `email`, `hashPassword`) VALUES
-(5, 'Altınkaya', 'Hasemek, 1469. Sokak, İvedik OSB', 'Yenimahalle', 'Ankara', 'marketStaff', 'mustafa@altinisik.net', '$2y$10$WCxolUBAS1MfRR41ITWN5uRx6F2y4yoN.ceM0UDmNRjvBPu4jKse2'),
-(6, 'Suphi Erkin Karaçay', 'Aşağı Öveçler Mahallesi, Lizbon Caddesi, 1292. Sokak, 5/15', 'Çankaya', 'Ankara', 'customer', 'serkinkaracay@gmail.com', '$2y$10$WgWlIWgwOFrEFlvWsgoaGuPM.CuTmnBmDfq9TQvRIJTuJJIli0swW'),
+(5, 'Altınkaya', 'Hasemek, 123 Sokak, İvedik ', 'Yenimahalle', 'Ankara', 'marketStaff', 'falan@altinisik.net', '$2y$10$WCxolUBAS1MfRR41ITWN5uRx6F2y4yoN.ceM0UDmNRjvBPu4jKse2'),
+(6, 'Sufi', 'Mahalle, Cadde, Sokak, 1/5', 'Çankaya', 'Ankara', 'customer', 'bso@gmail.com', '$2y$10$WgWlIWgwOFrEFlvWsgoaGuPM.CuTmnBmDfq9TQvRIJTuJJIli0swW'),
 (7, 'Tuğba Özhan', 'Eryaman Mh. 271. Sk. OYAK555 Konut Sitesi C1 Blok D:13 ', 'Etimesgut', 'İstanbul', 'customer', 'tugbaozbayrak0@gmail.com', '$2y$10$P0JrWWPxLQNk45kkbuC2S.wlUgkewdUCzZ7PdBguEUmwye8Po58aO'),
 (8, 'Buket Adasayar', 'seğmenler mahallesi cumhuriyet caddesi yıldırım sitesi a blok no:23 ', 'gölbaşı', 'İzmir', 'customer', 'ykskbsbuket@gmail.com', '$2y$10$WOWftu/kg7Hf3yDe0yFqk.1A27cEJKwUrW5tDRelWSlTMrC9rYpam');
 
